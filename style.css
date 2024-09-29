@@ -1,0 +1,44 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#drawingCanvas {
+    cursor: crosshair;
+    margin: 20px auto;
+    display: block;
+    border: 1px solid #000000;
+}
+
+#guessInput {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#submitGuess, #clearCanvas {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+label {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+input[type="color"], input[type="range"] {
+    margin-right: 20px;
+}
