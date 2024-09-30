@@ -50,7 +50,7 @@ function initializeDrawingMode() {
     // Set default brush settings
     context.lineWidth = brushSize.value;
     context.lineCap = 'round';
-    context.strokeStyle = '#ffffff'; // Default brush color set to white
+    context.strokeStyle = '#000000'; // Default brush color set to white
 
     // Mouse events for drawing
     drawingCanvas.addEventListener('mousedown', startDrawing);
@@ -63,7 +63,7 @@ function initializeDrawingMode() {
     drawingCanvas.addEventListener('touchmove', draw);
 
     // Brush controls
-    colorPicker.value = '#ffffff'; // Set the color picker default to white
+    colorPicker.value = '#000000'; // Set the color picker default to white
     colorPicker.addEventListener('change', () => {
         context.strokeStyle = colorPicker.value;
     });
