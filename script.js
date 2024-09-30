@@ -26,8 +26,8 @@ let guessesLeft = 3;
 let currentRound = 1;
 const totalRounds = 8;
 let selectedWord = '';
-let wordsToGuess = [];
-const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig', 'guava', 'papaya', 'plum', 'pomegranate', 'raspberry', 'tangerine', 'cantaloupe', 'date', 'elderberry', 'grapefruit'];
+let wordsToGuess = []; // Predefined answers for each round
+const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig']; // 20 possible words
 
 // Event listeners for role selection
 drawButton.addEventListener('click', () => {
@@ -119,8 +119,8 @@ function initializeGuessingMode() {
     guessesLeft = 3;
     guessesLeftDisplay.textContent = guessesLeft;
 
-    // Set predefined words for each round (the correct answers)
-    wordsToGuess = ['plum', 'orange', 'kiwi', 'melon', 'fig', 'cantaloupe', 'grapefruit', 'banana']; // You can customize this list
+    // Predefined answers for each round
+    wordsToGuess = ['apple', 'kiwi', 'melon', 'pear', 'grape', 'blueberry', 'fig', 'coconut']; // Correct answers for each round
 
     // Display the possible words (all 20 words) in a table
     displayWordTable();
