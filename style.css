@@ -49,7 +49,7 @@ h1 {
     margin: 20px auto;
     display: block;
     border: 3px solid #fdd835; /* Yellow border */
-    background-color: #333333; /* Dark gray canvas background */
+    background-color: #ffffff; /* White canvas background */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 12px rgba(255, 255, 255, 255); /* Shadow for depth */
 }
