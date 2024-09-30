@@ -28,7 +28,6 @@
             <label for="brushSize">Brush Size:</label>
             <input type="range" id="brushSize" min="1" max="20" value="5">
             <button id="clearCanvas">Clear Canvas</button>
-            <button id="endDrawing">End Drawing</button>
         </div>
     </div>
 
@@ -39,20 +38,13 @@
         <p>Round: <span id="currentRound">1</span> / 8</p>
         <p>Guesses Left: <span id="guessesLeft">3</span></p>
         <p>Possible Words:</p>
-        <!-- Word Table -->
+        <!-- Word Table to display all possible words -->
         <table id="wordTable"></table>
-        <div class="guess-controls">
+        <div>
             <input type="text" id="guessInput" placeholder="Enter your guess here">
             <button id="submitGuess">Submit Guess</button>
             <button id="nextRoundButton" style="display: none;">Next Round</button>
         </div>
-    </div>
-
-    <!-- End Game Screen -->
-    <div id="endGame" style="display: none;">
-        <h2>Game Over!</h2>
-        <p>Your final score: <span id="finalScore">0</span> out of 8</p>
-        <button id="restartGame">Restart Game</button>
     </div>
 
     <script src="script.js"></script>
