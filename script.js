@@ -43,13 +43,14 @@ guessButton.addEventListener('click', () => {
 });
 
 // Drawing Mode Functions
+// Drawing Mode Functions
 function initializeDrawingMode() {
     context = drawingCanvas.getContext('2d');
 
-    // Set up the canvas
+    // Set default brush settings
     context.lineWidth = brushSize.value;
     context.lineCap = 'round';
-    context.strokeStyle = colorPicker.value;
+    context.strokeStyle = '#ffffff'; // Default brush color set to white
 
     // Mouse events for drawing
     drawingCanvas.addEventListener('mousedown', startDrawing);
@@ -62,6 +63,7 @@ function initializeDrawingMode() {
     drawingCanvas.addEventListener('touchmove', draw);
 
     // Brush controls
+    colorPicker.value = '#ffffff'; // Set the color picker default to white
     colorPicker.addEventListener('change', () => {
         context.strokeStyle = colorPicker.value;
     });
@@ -72,6 +74,7 @@ function initializeDrawingMode() {
 
     clearCanvasButton.addEventListener('click', clearCanvas);
 }
+
 
 function startDrawing(e) {
     e.preventDefault();
