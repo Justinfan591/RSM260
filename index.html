@@ -10,36 +10,36 @@
 
     <h1>Whiteboard Guessing Game</h1>
 
-    <!-- Play Game Button -->
-    <button id="playGame">Play Game</button>
-
-    <!-- Game Information -->
-    <div id="gameInfo" style="display: none;">
-        <p>Round: <span id="currentRound">1</span> of 8</p>
-        <p>Guesses Left: <span id="guessesLeft">3</span></p>
-        <p>Possible Words:</p>
-        <ul id="wordList"></ul>
+    <!-- Role Selection -->
+    <div id="roleSelection">
+        <button id="drawButton">Draw</button>
+        <button id="guessButton">Guess</button>
     </div>
 
-    <!-- Drawing Canvas -->
-    <canvas id="drawingCanvas" width="800" height="500" style="display: none;">
-        Your browser does not support the HTML5 canvas tag.
-    </canvas>
-
-    <!-- Game Controls -->
-    <div id="gameControls" style="display: none;">
-        <div>
-            <input type="text" id="guessInput" placeholder="Enter your guess here">
-            <button id="submitGuess">Submit Guess</button>
-            <button id="clearCanvas">Clear Canvas</button>
-        </div>
-
-        <!-- Controls for brush color and size -->
+    <!-- Drawing Mode -->
+    <div id="drawingMode" style="display: none;">
+        <h2>Drawing Mode</h2>
+        <canvas id="drawingCanvas" width="800" height="500">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
         <div class="controls">
             <label for="colorPicker">Brush Color:</label>
             <input type="color" id="colorPicker" value="#000000">
             <label for="brushSize">Brush Size:</label>
             <input type="range" id="brushSize" min="1" max="20" value="5">
+            <button id="clearCanvas">Clear Canvas</button>
+        </div>
+    </div>
+
+    <!-- Guessing Mode -->
+    <div id="guessingMode" style="display: none;">
+        <h2>Guessing Mode</h2>
+        <p>Points: <span id="points">0</span></p>
+        <p>Round: <span id="currentRound">1</span> / 8</p>
+        <p>Guesses Left: <span id="guessesLeft">3</span></p>
+        <div>
+            <input type="text" id="guessInput" placeholder="Enter your guess here">
+            <button id="submitGuess">Submit Guess</button>
         </div>
     </div>
 

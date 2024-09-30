@@ -1,31 +1,81 @@
-// Drawing functionality
-const canvas = document.getElementById('drawingCanvas');
-const context = canvas.getContext('2d');
+// Get DOM elements
+const roleSelection = document.getElementById('roleSelection');
+const drawButton = document.getElementById('drawButton');
+const guessButton = document.getElementById('guessButton');
 
+const drawingMode = document.getElementById('drawingMode');
+const drawingCanvas = document.getElementById('drawingCanvas');
+const context = drawingCanvas.getContext('2d');
+const colorPicker = document.getElementById('colorPicker');
+const brushSize = document.getElementById('brushSize');
+const clearCanvasButton = document.getElementById('clearCanvas');
+
+const guessingMode = document.getElementById('guessingMode');
+const pointsDisplay = document.getElementById('points');
+const guessesLeftDisplay = document.getElementById('guessesLeft');
+const currentRoundDisplay = document.getElementById('currentRound');
+const guessInput = document.getElementById('guessInput');
+const submitGuessButton = document.getElementById('submitGuess');
+
+// Game variables
 let drawing = false;
+let points = 0;
+let guessesLeft = 3;
+let currentRound = 1;
+const totalRounds = 8;
+let selectedWord = '';
+let wordsToGuess = [];
+const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig', 'guava', 'papaya', 'plum', 'pomegranate', 'raspberry', 'tangerine', 'cantaloupe', 'date', 'elderberry', 'grapefruit'];
 
-// Set up the canvas
-context.lineWidth = 5;
-context.lineCap = 'round';
-context.strokeStyle = '#000000';
+// Event listeners for role selection
+drawButton.addEventListener('click', () => {
+    roleSelection.style.display = 'none';
+    drawingMode.style.display = 'block';
+    initializeDrawingMode();
+});
 
-// Mouse events for drawing
-canvas.addEventListener('mousedown', startPosition);
-canvas.addEventListener('mouseup', endPosition);
-canvas.addEventListener('mousemove', draw);
+guessButton.addEventListener('click', () => {
+    roleSelection.style.display = 'none';
+    guessingMode.style.display = 'block';
+    initializeGuessingMode();
+});
 
-// Touch events for mobile devices
-canvas.addEventListener('touchstart', startPosition);
-canvas.addEventListener('touchend', endPosition);
-canvas.addEventListener('touchmove', draw);
+// Drawing Mode Functions
+function initializeDrawingMode() {
+    // Set up the canvas
+    context.lineWidth = brushSize.value;
+    context.lineCap = 'round';
+    context.strokeStyle = colorPicker.value;
 
-function startPosition(e) {
+    // Mouse events for drawing
+    drawingCanvas.addEventListener('mousedown', startDrawing);
+    drawingCanvas.addEventListener('mouseup', stopDrawing);
+    drawingCanvas.addEventListener('mousemove', draw);
+
+    // Touch events for mobile devices
+    drawingCanvas.addEventListener('touchstart', startDrawing);
+    drawingCanvas.addEventListener('touchend', stopDrawing);
+    drawingCanvas.addEventListener('touchmove', draw);
+
+    // Brush controls
+    colorPicker.addEventListener('change', () => {
+        context.strokeStyle = colorPicker.value;
+    });
+
+    brushSize.addEventListener('change', () => {
+        context.lineWidth = brushSize.value;
+    });
+
+    clearCanvasButton.addEventListener('click', clearCanvas);
+}
+
+function startDrawing(e) {
     e.preventDefault();
     drawing = true;
     draw(e);
 }
 
-function endPosition(e) {
+function stopDrawing(e) {
     e.preventDefault();
     drawing = false;
     context.beginPath();
@@ -35,14 +85,15 @@ function draw(e) {
     e.preventDefault();
     if (!drawing) return;
 
+    let rect = drawingCanvas.getBoundingClientRect();
     let x, y;
 
     if (e.type.includes('mouse')) {
-        x = e.clientX - canvas.getBoundingClientRect().left;
-        y = e.clientY - canvas.getBoundingClientRect().top;
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
     } else {
-        x = e.touches[0].clientX - canvas.getBoundingClientRect().left;
-        y = e.touches[0].clientY - canvas.getBoundingClientRect().top;
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
     }
 
     context.lineTo(x, y);
@@ -51,143 +102,93 @@ function draw(e) {
     context.moveTo(x, y);
 }
 
-// Game variables
-const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig', 'guava', 'papaya', 'plum', 'pomegranate', 'raspberry', 'tangerine', 'cantaloupe', 'date', 'elderberry', 'grapefruit'];
+function clearCanvas() {
+    context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+}
 
-let selectedWords = [];
-let currentWord = '';
-let currentRound = 1;
-const totalRounds = 8;
-let guessesLeft = 3;
-
-// DOM elements
-const playGameButton = document.getElementById('playGame');
-const gameInfo = document.getElementById('gameInfo');
-const wordListElement = document.getElementById('wordList');
-const currentRoundElement = document.getElementById('currentRound');
-const guessesLeftElement = document.getElementById('guessesLeft');
-
-const gameControls = document.getElementById('gameControls');
-const submitGuessButton = document.getElementById('submitGuess');
-const guessInput = document.getElementById('guessInput');
-const clearCanvasButton = document.getElementById('clearCanvas');
-
-// Brush controls
-const colorPicker = document.getElementById('colorPicker');
-const brushSize = document.getElementById('brushSize');
-
-// Event listeners
-playGameButton.addEventListener('click', startGame);
-submitGuessButton.addEventListener('click', handleGuess);
-clearCanvasButton.addEventListener('click', clearCanvas);
-colorPicker.addEventListener('change', () => {
-    context.strokeStyle = colorPicker.value;
-});
-brushSize.addEventListener('change', () => {
-    context.lineWidth = brushSize.value;
-});
-
-// Start the game
-function startGame() {
-    // Hide the play button
-    playGameButton.style.display = 'none';
-
-    // Show the game info, canvas, and controls
-    gameInfo.style.display = 'block';
-    canvas.style.display = 'block';
-    gameControls.style.display = 'block';
-
-    // Reset game variables
+// Guessing Mode Functions
+function initializeGuessingMode() {
+    points = 0;
     currentRound = 1;
+    pointsDisplay.textContent = points;
+    currentRoundDisplay.textContent = currentRound;
     guessesLeft = 3;
-    currentRoundElement.textContent = currentRound;
-    guessesLeftElement.textContent = guessesLeft;
+    guessesLeftDisplay.textContent = guessesLeft;
 
-    // Select 20 random words from allWords
-    selectedWords = [];
-    let wordsCopy = [...allWords];
-    for (let i = 0; i < 20; i++) {
-        let randomIndex = Math.floor(Math.random() * wordsCopy.length);
-        selectedWords.push(wordsCopy[randomIndex]);
-        wordsCopy.splice(randomIndex, 1);
-    }
-
-    // Display the possible words
-    wordListElement.innerHTML = '';
-    selectedWords.forEach(word => {
-        let li = document.createElement('li');
-        li.textContent = word;
-        wordListElement.appendChild(li);
-    });
+    // Select 8 random words
+    wordsToGuess = shuffleArray(allWords).slice(0, totalRounds);
 
     // Start the first round
     startRound();
+
+    // Add event listener for submitting guesses
+    submitGuessButton.addEventListener('click', handleGuess);
 }
 
-// Start a new round
 function startRound() {
-    // Reset guesses left
+    if (currentRound > totalRounds) {
+        endGame();
+        return;
+    }
+
+    selectedWord = wordsToGuess[currentRound - 1];
     guessesLeft = 3;
-    guessesLeftElement.textContent = guessesLeft;
-
-    // Select a word for this round
-    let randomIndex = Math.floor(Math.random() * selectedWords.length);
-    currentWord = selectedWords[randomIndex];
-    // Remove the word from the array to avoid repetition
-    selectedWords.splice(randomIndex, 1);
-
-    // Clear the canvas
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Clear the guess input
+    guessesLeftDisplay.textContent = guessesLeft;
+    currentRoundDisplay.textContent = currentRound;
     guessInput.value = '';
 
-    // Reset drawing variables if necessary
+    // Uncomment the line below for debugging purposes (to see the word)
+    // console.log(`Debug: The word to guess is "${selectedWord}"`);
 }
 
-// Handle the user's guess
 function handleGuess() {
-    const userGuess = guessInput.value.trim().toLowerCase();
+    let userGuess = guessInput.value.trim().toLowerCase();
     if (userGuess === '') {
-        alert('Please enter a guess.');
-    } else if (userGuess === currentWord) {
-        alert('Correct! You guessed the word.');
-        nextRound();
+        alert('Please enter your guess.');
+        return;
+    }
+
+    if (userGuess === selectedWord.toLowerCase()) {
+        points += 1;
+        pointsDisplay.textContent = points;
+        alert('Correct! You earned 1 point.');
+        currentRound += 1;
+        startRound();
     } else {
-        guessesLeft--;
+        guessesLeft -= 1;
+        guessesLeftDisplay.textContent = guessesLeft;
         if (guessesLeft > 0) {
-            guessesLeftElement.textContent = guessesLeft;
             alert('Incorrect guess. Try again!');
         } else {
-            alert(`Out of guesses! The word was "${currentWord}".`);
-            nextRound();
+            alert(`Out of guesses! The word was "${selectedWord}".`);
+            currentRound += 1;
+            startRound();
         }
     }
     guessInput.value = '';
 }
 
-// Proceed to the next round
-function nextRound() {
-    currentRound++;
-    if (currentRound > totalRounds) {
-        endGame();
-    } else {
-        currentRoundElement.textContent = currentRound;
-        startRound();
-    }
-}
-
-// End the game
 function endGame() {
-    alert('Game over! Thanks for playing.');
+    alert(`Game over! You scored ${points} out of ${totalRounds} points.`);
     // Reset the game
-    playGameButton.style.display = 'block';
-    gameInfo.style.display = 'none';
-    canvas.style.display = 'none';
-    gameControls.style.display = 'none';
+    guessingMode.style.display = 'none';
+    roleSelection.style.display = 'block';
 }
 
-// Clear the canvas
-function clearCanvas() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+// Utility function to shuffle an array
+function shuffleArray(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // Swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
 }
