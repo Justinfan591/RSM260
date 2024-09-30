@@ -4,27 +4,43 @@
     <meta charset="UTF-8">
     <title>Whiteboard Guessing Game</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
     <h1>Whiteboard Guessing Game</h1>
 
-    <canvas id="drawingCanvas" width="800" height="500">
+    <!-- Play Game Button -->
+    <button id="playGame">Play Game</button>
+
+    <!-- Game Information -->
+    <div id="gameInfo" style="display: none;">
+        <p>Round: <span id="currentRound">1</span> of 8</p>
+        <p>Guesses Left: <span id="guessesLeft">3</span></p>
+        <p>Possible Words:</p>
+        <ul id="wordList"></ul>
+    </div>
+
+    <!-- Drawing Canvas -->
+    <canvas id="drawingCanvas" width="800" height="500" style="display: none;">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
 
-    <div>
-        <input type="text" id="guessInput" placeholder="Enter your guess here">
-        <button id="submitGuess">Submit Guess</button>
-        <button id="clearCanvas">Clear Canvas</button>
-    </div>
+    <!-- Game Controls -->
+    <div id="gameControls" style="display: none;">
+        <div>
+            <input type="text" id="guessInput" placeholder="Enter your guess here">
+            <button id="submitGuess">Submit Guess</button>
+            <button id="clearCanvas">Clear Canvas</button>
+        </div>
 
-    <!-- Controls for brush color and size -->
-    <div class="controls">
-        <label for="colorPicker">Brush Color:</label>
-        <input type="color" id="colorPicker" value="#000000">
-        <label for="brushSize">Brush Size:</label>
-        <input type="range" id="brushSize" min="1" max="20" value="5">
+        <!-- Controls for brush color and size -->
+        <div class="controls">
+            <label for="colorPicker">Brush Color:</label>
+            <input type="color" id="colorPicker" value="#000000">
+            <label for="brushSize">Brush Size:</label>
+            <input type="range" id="brushSize" min="1" max="20" value="5">
+        </div>
     </div>
 
     <script src="script.js"></script>
