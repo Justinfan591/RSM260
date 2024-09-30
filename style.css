@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f8ff;
 }
 
 h1 {
@@ -10,7 +11,7 @@ h1 {
 }
 
 #roleSelection {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 #roleSelection button {
@@ -18,13 +19,23 @@ h1 {
     font-size: 18px;
     cursor: pointer;
     margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+#roleSelection button:hover {
+    background-color: #45a049;
 }
 
 #drawingCanvas {
     cursor: crosshair;
     margin: 20px auto;
     display: block;
-    border: 1px solid #000000;
+    border: 2px solid #000000;
+    background-color: #ffffff;
 }
 
 .controls {
@@ -44,6 +55,16 @@ h1 {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #da190b;
 }
 
 #guessingMode {
@@ -52,33 +73,22 @@ h1 {
 
 #guessingMode p {
     font-size: 18px;
-}
-
-#guessInput {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-#submitGuess, #nextRoundButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-right: 5px;
+    margin: 10px 0;
 }
 
 #wordTable {
     margin: 0 auto 20px;
     border-collapse: collapse;
-    width: 80%;
+    width: 60%;
 }
 
 #wordTable td, #wordTable th {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
     font-size: 16px;
     text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #wordTable tr:nth-child(even) {
@@ -87,4 +97,70 @@ h1 {
 
 #wordTable tr:hover {
     background-color: #ddd;
+}
+
+.guess-controls {
+    margin-top: 20px;
+}
+
+.guess-controls input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.guess-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #008CBA;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.guess-controls button:hover {
+    background-color: #007bb5;
+}
+
+#nextRoundButton {
+    background-color: #555555;
+}
+
+#nextRoundButton:hover {
+    background-color: #333333;
+}
+
+#endGame {
+    margin-top: 40px;
+}
+
+#endGame h2 {
+    font-size: 28px;
+    color: #ff5722;
+}
+
+#endGame p {
+    font-size: 22px;
+    margin: 20px 0;
+}
+
+#endGame button {
+    padding: 12px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+#endGame button:hover {
+    background-color: #45a049;
 }
