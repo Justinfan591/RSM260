@@ -16,6 +16,8 @@ const guessesLeftDisplay = document.getElementById('guessesLeft');
 const currentRoundDisplay = document.getElementById('currentRound');
 const guessInput = document.getElementById('guessInput');
 const submitGuessButton = document.getElementById('submitGuess');
+const nextRoundButton = document.getElementById('nextRoundButton');
+const wordTable = document.getElementById('wordTable');
 
 // Game variables
 let drawing = false;
@@ -118,11 +120,29 @@ function initializeGuessingMode() {
     // Select 8 random words
     wordsToGuess = shuffleArray(allWords).slice(0, totalRounds);
 
+    // Display the possible words in a table
+    displayWordTable();
+
     // Start the first round
     startRound();
 
     // Add event listener for submitting guesses
     submitGuessButton.addEventListener('click', handleGuess);
+
+    // Add event listener for Next Round button
+    nextRoundButton.addEventListener('click', nextRound);
+}
+
+function displayWordTable() {
+    wordTable.innerHTML = '';
+    let row;
+    wordsToGuess.forEach((word, index) => {
+        if (index % 5 === 0) {
+            row = wordTable.insertRow();
+        }
+        let cell = row.insertCell();
+        cell.textContent = word;
+    });
 }
 
 function startRound() {
@@ -136,7 +156,9 @@ function startRound() {
     guessesLeftDisplay.textContent = guessesLeft;
     currentRoundDisplay.textContent = currentRound;
     guessInput.value = '';
-
+    submitGuessButton.disabled = false;
+    nextRoundButton.style.display = 'none';
+    guessInput.disabled = false;
     // Uncomment the line below for debugging purposes (to see the word)
     // console.log(`Debug: The word to guess is "${selectedWord}"`);
 }
@@ -152,8 +174,9 @@ function handleGuess() {
         points += 1;
         pointsDisplay.textContent = points;
         alert('Correct! You earned 1 point.');
-        currentRound += 1;
-        startRound();
+        submitGuessButton.disabled = true;
+        guessInput.disabled = true;
+        nextRoundButton.style.display = 'inline-block';
     } else {
         guessesLeft -= 1;
         guessesLeftDisplay.textContent = guessesLeft;
@@ -161,11 +184,17 @@ function handleGuess() {
             alert('Incorrect guess. Try again!');
         } else {
             alert(`Out of guesses! The word was "${selectedWord}".`);
-            currentRound += 1;
-            startRound();
+            submitGuessButton.disabled = true;
+            guessInput.disabled = true;
+            nextRoundButton.style.display = 'inline-block';
         }
     }
     guessInput.value = '';
+}
+
+function nextRound() {
+    currentRound += 1;
+    startRound();
 }
 
 function endGame() {
