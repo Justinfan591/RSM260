@@ -26,7 +26,7 @@ let guessesLeft = 3;
 let currentRound = 1;
 const totalRounds = 8;
 let selectedWord = '';
-let wordsToGuess = []; // Predefined answers for each round
+let wordsToGuess = ['apple','banana','orange','mango','peach','strawberry', 'pineapple', 'watermelon']; // Predefined answers for each round
 const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig']; // 20 possible words
 
 // Event listeners for role selection
