@@ -1,18 +1,23 @@
-/* Body Styles */
+/* General Styles */
 body {
-    background-color: #000000; /* Black background */
-    color: #fdd835; /* Yellow text color */
+    background-color: #121212; /* Darker black background */
+    color: #fdd835; /* Bright yellow text */
     text-align: center;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Cleaner, modern font */
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
-/* Heading */
 h1 {
-    margin-top: 20px;
-    font-size: 36px;
+    font-size: 40px;
     color: #fdd835; /* Bright yellow */
+    margin-bottom: 20px;
+    letter-spacing: 2px;
 }
 
 /* Role Selection Buttons */
@@ -21,19 +26,21 @@ h1 {
 }
 
 #roleSelection button {
-    padding: 15px 30px;
+    padding: 15px 35px;
     font-size: 18px;
     cursor: pointer;
     margin: 10px;
     border: none;
     color: #000000; /* Black text */
     background-color: #fdd835; /* Bright yellow background */
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    border-radius: 30px; /* Rounded corners */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
 #roleSelection button:hover {
     background-color: #ffd700; /* Slightly lighter yellow on hover */
+    transform: translateY(-2px); /* Lift effect */
 }
 
 /* Canvas for Drawing Mode */
@@ -41,8 +48,10 @@ h1 {
     cursor: crosshair;
     margin: 20px auto;
     display: block;
-    border: 2px solid #fdd835; /* Yellow border */
+    border: 3px solid #fdd835; /* Yellow border */
     background-color: #333333; /* Dark gray canvas background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow for depth */
 }
 
 /* Controls for Brush and Clear Button */
@@ -51,7 +60,7 @@ h1 {
 }
 
 .controls label {
-    font-size: 16px;
+    font-size: 18px;
     margin-right: 10px;
     color: #fdd835;
 }
@@ -61,18 +70,20 @@ h1 {
 }
 
 .controls button {
-    padding: 10px 20px;
+    padding: 10px 25px;
     font-size: 16px;
     cursor: pointer;
     color: #000000; /* Black text */
     background-color: #fdd835; /* Yellow background */
     border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
 .controls button:hover {
     background-color: #ffd700; /* Lighter yellow on hover */
+    transform: translateY(-2px); /* Lift effect */
 }
 
 /* Guessing Mode Styles */
@@ -82,38 +93,42 @@ h1 {
 }
 
 #guessingMode p {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #fdd835; /* Bright yellow text */
+    margin: 10px 0;
 }
 
 /* Guess Input */
 #guessInput {
     width: 300px;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     color: #000000; /* Black text */
     background-color: #fdd835; /* Yellow background */
     border: none;
-    border-radius: 8px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     margin-right: 10px;
 }
 
 /* Buttons for Submitting Guess and Next Round */
 #submitGuess, #nextRoundButton {
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 16px;
     cursor: pointer;
     margin-right: 5px;
     color: #000000; /* Black text */
     background-color: #fdd835; /* Yellow background */
     border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
 #submitGuess:hover, #nextRoundButton:hover {
     background-color: #ffd700; /* Lighter yellow on hover */
+    transform: translateY(-2px); /* Lift effect */
 }
 
 /* Table for Word Choices */
@@ -121,15 +136,20 @@ h1 {
     margin: 20px auto;
     border-collapse: collapse;
     width: 80%;
+    max-width: 800px; /* Set a max width for large screens */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Table shadow */
+    border-radius: 10px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure rounded corners on all sides */
 }
 
 #wordTable td, #wordTable th {
     border: 2px solid #fdd835; /* Yellow borders */
-    padding: 8px;
+    padding: 10px;
     font-size: 18px;
     text-align: center;
     background-color: #222222; /* Dark background for table cells */
     color: #fdd835; /* Yellow text */
+    transition: background-color 0.3s ease;
 }
 
 #wordTable tr:nth-child(even) {
@@ -140,8 +160,27 @@ h1 {
     background-color: #444444; /* Darker background on hover */
 }
 
-/* Highlight Effect on Hovering Over Words */
 #wordTable td:hover {
     background-color: #fdd835; /* Yellow on hover */
     color: #000000; /* Black text when hovering */
+}
+
+/* Make the layout responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    #guessInput {
+        width: 90%;
+    }
+
+    #submitGuess, #nextRoundButton {
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    #wordTable {
+        width: 95%;
+    }
 }
