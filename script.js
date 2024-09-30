@@ -5,7 +5,6 @@ const guessButton = document.getElementById('guessButton');
 
 const drawingMode = document.getElementById('drawingMode');
 const drawingCanvas = document.getElementById('drawingCanvas');
-const context = drawingCanvas.getContext('2d');
 const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSize');
 const clearCanvasButton = document.getElementById('clearCanvas');
@@ -21,6 +20,7 @@ const wordTable = document.getElementById('wordTable');
 
 // Game variables
 let drawing = false;
+let context; // Declare context here but initialize it later
 let points = 0;
 let guessesLeft = 3;
 let currentRound = 1;
@@ -44,6 +44,8 @@ guessButton.addEventListener('click', () => {
 
 // Drawing Mode Functions
 function initializeDrawingMode() {
+    context = drawingCanvas.getContext('2d');
+
     // Set up the canvas
     context.lineWidth = brushSize.value;
     context.lineCap = 'round';
