@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RSM260 Guessing Game</title>
+    <title>Whiteboard Guessing Game</title>
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-    <h1>RSM260 Guessing Game</h1>
+    <h1>Whiteboard Guessing Game</h1>
 
     <!-- Role Selection -->
     <div id="roleSelection">
@@ -23,7 +23,7 @@
             Your browser does not support the HTML5 canvas tag.
         </canvas>
 
-        <!-- Timer display -->
+        <!-- Timer display for drawing mode only -->
         <h2 id="timerDisplay">Timer: 1:20</h2>
 
         <div class="controls">
@@ -32,24 +32,24 @@
             <label for="brushSize">Brush Size:</label>
             <input type="range" id="brushSize" min="1" max="20" value="5">
             <button id="clearCanvas">Clear Canvas</button>
-            <button id="resetTimerButton">Reset Timer</button> <!-- Reset Timer button -->
+            <button id="resetTimerButton">Reset Timer</button>
             <button id="nextRoundDrawingButton">Next Round</button> <!-- Next Round button for drawing -->
         </div>
     </div>
 
-    <!-- Guessing Mode -->
+    <!-- Guessing Mode (No Timer) -->
     <div id="guessingMode" style="display: none;">
         <h2>Guessing Mode</h2>
         <p>Points: <span id="points">0</span></p>
         <p>Round: <span id="currentRound">1</span> / 8</p>
-        <p>Guesses Left: <span id="guessesLeft">5</span></p>
+        <p>Guesses Left: <span id="guessesLeft">3</span></p>
         <p>Possible Words:</p>
         <!-- Word Table to display all possible words -->
         <table id="wordTable"></table>
         <div>
             <input type="text" id="guessInput" placeholder="Enter your guess here">
             <button id="submitGuess">Submit Guess</button>
-            <button id="nextRoundButton" style="display: none;">Next Round</button>
+            <button id="nextRoundButton" style="display: inline-block;">Next Round</button>
         </div>
     </div>
 

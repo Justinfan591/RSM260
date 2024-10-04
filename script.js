@@ -17,7 +17,7 @@ const guessesLeftDisplay = document.getElementById('guessesLeft');
 const currentRoundDisplay = document.getElementById('currentRound');
 const guessInput = document.getElementById('guessInput');
 const submitGuessButton = document.getElementById('submitGuess');
-const nextRoundButton = document.getElementById('nextRoundButton');
+const nextRoundButton = document.getElementById('nextRoundButton'); // Always enabled next round button
 const wordTable = document.getElementById('wordTable');
 const timerDisplay = document.getElementById('timerDisplay'); // For the timer
 
@@ -25,7 +25,7 @@ const timerDisplay = document.getElementById('timerDisplay'); // For the timer
 let drawing = false;
 let context; // Declare context here but initialize it later
 let points = 0;
-let guessesLeft = 5;
+let guessesLeft = 3;
 let currentRound = 1;
 const totalRounds = 5;
 let selectedWord = '';
@@ -128,7 +128,7 @@ function clearCanvas() {
     context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
 }
 
-// Timer function to countdown from 1:20
+// Timer function to countdown from 1:20 in drawing mode only
 function startTimer() {
     let timeRemaining = 80; // 1 minute 20 seconds in seconds
     timerDisplay.textContent = formatTime(timeRemaining); // Show initial time
@@ -163,13 +163,13 @@ function resetTimer() {
     clearCanvas(); // Optionally clear the canvas as well
 }
 
-// Guessing Mode Functions
+// Guessing Mode Functions (no timer here)
 function initializeGuessingMode() {
     points = 0;
     currentRound = 1;
     pointsDisplay.textContent = points;
     currentRoundDisplay.textContent = currentRound;
-    guessesLeft = 5;
+    guessesLeft = 3;
     guessesLeftDisplay.textContent = guessesLeft;
 
     // Predefined answers for each round
@@ -184,7 +184,7 @@ function initializeGuessingMode() {
     // Add event listener for submitting guesses
     submitGuessButton.addEventListener('click', handleGuess);
 
-    // Add event listener for Next Round button
+    // Add event listener for Next Round button in guessing mode
     nextRoundButton.addEventListener('click', nextRound);
 }
 
@@ -207,16 +207,13 @@ function startRound() {
     }
 
     selectedWord = wordsToGuess[currentRound - 1]; // Use the predefined word for the current round
-    guessesLeft = 5;
+    guessesLeft = 3;
     guessesLeftDisplay.textContent = guessesLeft;
     currentRoundDisplay.textContent = currentRound;
     guessInput.value = '';
     submitGuessButton.disabled = false;
-    nextRoundButton.style.display = 'none';
+    nextRoundButton.style.display = 'inline-block'; // Ensure next round button is always enabled
     guessInput.disabled = false;
-
-    // Start the timer for the round (only in guessing mode)
-    startTimer();
 }
 
 function handleGuess() {
@@ -232,19 +229,15 @@ function handleGuess() {
         alert('Correct! You earned 1 point.');
         submitGuessButton.disabled = true;
         guessInput.disabled = true;
-        nextRoundButton.style.display = 'inline-block';
-        clearInterval(timerInterval); // Stop the timer if the user guesses correctly
     } else {
         guessesLeft -= 1;
         guessesLeftDisplay.textContent = guessesLeft;
         if (guessesLeft > 0) {
-            alert('Try again lol');
+            alert('Incorrect guess. Try again!');
         } else {
-            alert("Comon dude you can do better");
+            alert(`Out of guesses! The word was "${selectedWord}".`);
             submitGuessButton.disabled = true;
             guessInput.disabled = true;
-            nextRoundButton.style.display = 'inline-block';
-            clearInterval(timerInterval); // Stop the timer if out of guesses
         }
     }
     guessInput.value = '';
@@ -256,7 +249,7 @@ function nextRound() {
 }
 
 function endGame() {
-    alert(`HAHA! You finished You scored ${points} out of ${totalRounds} points. Not bad not bad!`);
+    alert(`Game over! You scored ${points} out of ${totalRounds} points.`);
     // Reset the game
     guessingMode.style.display = 'none';
     roleSelection.style.display = 'block';
