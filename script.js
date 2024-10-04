@@ -8,6 +8,8 @@ const drawingCanvas = document.getElementById('drawingCanvas');
 const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSize');
 const clearCanvasButton = document.getElementById('clearCanvas');
+const resetTimerButton = document.getElementById('resetTimerButton'); // Reset Timer Button
+const nextRoundDrawingButton = document.getElementById('nextRoundDrawingButton'); // Next Round Button in drawing mode
 
 const guessingMode = document.getElementById('guessingMode');
 const pointsDisplay = document.getElementById('points');
@@ -30,6 +32,7 @@ let selectedWord = '';
 let wordsToGuess = ['Leadership', 'Communication', 'Interview', 'Organizational Behaviour', 'Group Mechanism']; // Predefined answers for each round
 const allWords = ["Leadership", "Teamwork", "Motivation", "Organization", "Structure", "Communication", "Performance", "Diversity", "Strategy", "Conflict", "Collaboration", "Group Mechanism", "Surveys", "Experiments", "Interviews", "Behavior", "Organizational Behaviour", "Satisfaction", "Decision-making", "Feedback"]; // 20 possible words
 let timerInterval; // For the timer
+let timerStarted = false; // Track if the timer has started
 
 // Event listeners for role selection
 drawButton.addEventListener('click', () => {
@@ -74,12 +77,24 @@ function initializeDrawingMode() {
     });
 
     clearCanvasButton.addEventListener('click', clearCanvas);
+
+    // Reset Timer Button functionality
+    resetTimerButton.addEventListener('click', resetTimer);
+
+    // Next Round Button functionality in drawing mode
+    nextRoundDrawingButton.addEventListener('click', nextRound);
 }
 
 function startDrawing(e) {
     e.preventDefault();
     drawing = true;
     draw(e);
+
+    // Start the timer when drawing begins, if it hasn't started already
+    if (!timerStarted) {
+        startTimer();
+        timerStarted = true;
+    }
 }
 
 function stopDrawing(e) {
@@ -140,6 +155,14 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
+// Reset the timer manually
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerStarted = false; // Allow the timer to start again when drawing begins
+    timerDisplay.textContent = 'Timer: 1:20'; // Reset the timer display
+    clearCanvas(); // Optionally clear the canvas as well
+}
+
 // Guessing Mode Functions
 function initializeGuessingMode() {
     points = 0;
@@ -192,7 +215,7 @@ function startRound() {
     nextRoundButton.style.display = 'none';
     guessInput.disabled = false;
 
-    // Start the timer for the round
+    // Start the timer for the round (only in guessing mode)
     startTimer();
 }
 
