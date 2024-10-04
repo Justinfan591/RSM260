@@ -238,9 +238,9 @@ function handleGuess() {
         guessesLeft -= 1;
         guessesLeftDisplay.textContent = guessesLeft;
         if (guessesLeft > 0) {
-            alert('Incorrect guess. Try again!');
+            alert('Try again lol');
         } else {
-            alert(`Out of guesses! The word was "${selectedWord}".`);
+            alert("Comon dude you can do better");
             submitGuessButton.disabled = true;
             guessInput.disabled = true;
             nextRoundButton.style.display = 'inline-block';
@@ -256,7 +256,7 @@ function nextRound() {
 }
 
 function endGame() {
-    alert(`Game over! You scored ${points} out of ${totalRounds} points.`);
+    alert(`HAHA! You finished You scored ${points} out of ${totalRounds} points. Not bad not bad!`);
     // Reset the game
     guessingMode.style.display = 'none';
     roleSelection.style.display = 'block';
