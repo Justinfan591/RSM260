@@ -25,7 +25,7 @@ const timerDisplay = document.getElementById('timerDisplay'); // For the timer
 let drawing = false;
 let context; // Declare context here but initialize it later
 let points = 0;
-let guessesLeft = 3;
+let guessesLeft = 5;
 let currentRound = 1;
 const totalRounds = 5;
 let selectedWord = '';
@@ -169,7 +169,7 @@ function initializeGuessingMode() {
     currentRound = 1;
     pointsDisplay.textContent = points;
     currentRoundDisplay.textContent = currentRound;
-    guessesLeft = 3;
+    guessesLeft = 5;
     guessesLeftDisplay.textContent = guessesLeft;
 
     // Predefined answers for each round
@@ -207,7 +207,7 @@ function startRound() {
     }
 
     selectedWord = wordsToGuess[currentRound - 1]; // Use the predefined word for the current round
-    guessesLeft = 3;
+    guessesLeft = 5;
     guessesLeftDisplay.textContent = guessesLeft;
     currentRoundDisplay.textContent = currentRound;
     guessInput.value = '';
