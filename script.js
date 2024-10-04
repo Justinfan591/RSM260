@@ -17,6 +17,7 @@ const guessInput = document.getElementById('guessInput');
 const submitGuessButton = document.getElementById('submitGuess');
 const nextRoundButton = document.getElementById('nextRoundButton');
 const wordTable = document.getElementById('wordTable');
+const timerDisplay = document.getElementById('timerDisplay'); // For the timer
 
 // Game variables
 let drawing = false;
@@ -24,10 +25,11 @@ let context; // Declare context here but initialize it later
 let points = 0;
 let guessesLeft = 3;
 let currentRound = 1;
-const totalRounds = 8;
+const totalRounds = 5;
 let selectedWord = '';
-let wordsToGuess = ['apple','banana','orange','mango','peach','strawberry', 'pineapple', 'watermelon']; // Predefined answers for each round
-const allWords = ['apple', 'banana', 'orange', 'grape', 'melon', 'strawberry', 'pineapple', 'watermelon', 'kiwi', 'peach', 'mango', 'pear', 'cherry', 'lemon', 'lime', 'apricot', 'blueberry', 'blackberry', 'coconut', 'fig']; // 20 possible words
+let wordsToGuess = ['Leadership', 'Communication', 'Interview', 'Organizational Behaviour', 'Group Mechanism']; // Predefined answers for each round
+const allWords = ["Leadership", "Teamwork", "Motivation", "Organization", "Structure", "Communication", "Performance", "Diversity", "Strategy", "Conflict", "Collaboration", "Group Mechanism", "Surveys", "Experiments", "Interviews", "Behavior", "Organizational Behaviour", "Satisfaction", "Decision-making", "Feedback"]; // 20 possible words
+let timerInterval; // For the timer
 
 // Event listeners for role selection
 drawButton.addEventListener('click', () => {
@@ -42,7 +44,6 @@ guessButton.addEventListener('click', () => {
     initializeGuessingMode();
 });
 
-// Drawing Mode Functions
 // Drawing Mode Functions
 function initializeDrawingMode() {
     context = drawingCanvas.getContext('2d');
@@ -63,7 +64,7 @@ function initializeDrawingMode() {
     drawingCanvas.addEventListener('touchmove', draw);
 
     // Brush controls
-    colorPicker.value = '#000000'; // Set the color picker default to white
+    colorPicker.value = '#000000'; // Set the color picker default to black
     colorPicker.addEventListener('change', () => {
         context.strokeStyle = colorPicker.value;
     });
@@ -74,7 +75,6 @@ function initializeDrawingMode() {
 
     clearCanvasButton.addEventListener('click', clearCanvas);
 }
-
 
 function startDrawing(e) {
     e.preventDefault();
@@ -113,6 +113,33 @@ function clearCanvas() {
     context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
 }
 
+// Timer function to countdown from 1:20
+function startTimer() {
+    let timeRemaining = 80; // 1 minute 20 seconds in seconds
+    timerDisplay.textContent = formatTime(timeRemaining); // Show initial time
+
+    // Clear any previous timer
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        timerDisplay.textContent = formatTime(timeRemaining);
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert('Time is up! Moving to the next round.');
+            nextRound(); // Move to the next round automatically
+        }
+    }, 1000); // Decrease time every second
+}
+
+// Function to format the time (e.g., 1:20)
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+}
+
 // Guessing Mode Functions
 function initializeGuessingMode() {
     points = 0;
@@ -123,7 +150,7 @@ function initializeGuessingMode() {
     guessesLeftDisplay.textContent = guessesLeft;
 
     // Predefined answers for each round
-    wordsToGuess = ['apple', 'kiwi', 'melon', 'pear', 'grape', 'blueberry', 'fig', 'coconut']; // Correct answers for each round
+    wordsToGuess = ['Leadership', 'Communication', 'Interview', 'Organizational Behaviour', 'Group Mechanism']; // Correct answers for each round
 
     // Display the possible words (all 20 words) in a table
     displayWordTable();
@@ -164,6 +191,9 @@ function startRound() {
     submitGuessButton.disabled = false;
     nextRoundButton.style.display = 'none';
     guessInput.disabled = false;
+
+    // Start the timer for the round
+    startTimer();
 }
 
 function handleGuess() {
@@ -180,6 +210,7 @@ function handleGuess() {
         submitGuessButton.disabled = true;
         guessInput.disabled = true;
         nextRoundButton.style.display = 'inline-block';
+        clearInterval(timerInterval); // Stop the timer if the user guesses correctly
     } else {
         guessesLeft -= 1;
         guessesLeftDisplay.textContent = guessesLeft;
@@ -190,6 +221,7 @@ function handleGuess() {
             submitGuessButton.disabled = true;
             guessInput.disabled = true;
             nextRoundButton.style.display = 'inline-block';
+            clearInterval(timerInterval); // Stop the timer if out of guesses
         }
     }
     guessInput.value = '';
@@ -213,10 +245,8 @@ function shuffleArray(array) {
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        // Swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
